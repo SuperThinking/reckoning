@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: rgb(245 245 244);
+}
+
+body {
+  background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+code, pre, .font-mono, input[type='date'] {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Custom scrollbar for a more refined feel */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(245 245 244);
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(214 211 209);
+  border: 2px solid rgb(245 245 244);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(168 162 158);
+}
