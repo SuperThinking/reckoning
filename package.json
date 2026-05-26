@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "author": {
+    "name": "Vishal Dhawan",
+    "email": "superdhawan@gmail.com"
+  },
   "description": "A client-side feedback-cycle companion that turns your GitHub activity into a self-review.",
   "scripts": {
     "dev": "vite",
