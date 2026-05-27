@@ -1,5 +1,9 @@
 # Reckoning — GitHub Feedback Companion
 
+
+<img width="1066" height="853" alt="image" src="https://github.com/user-attachments/assets/d6c7f173-6724-43e0-8714-b7f5e0a96cf4" />
+
+
 A client-side companion that turns your GitHub activity into a feedback-cycle self-review.
 
 Pull every PR you authored, reviewed, or commented on, and every issue you opened or
