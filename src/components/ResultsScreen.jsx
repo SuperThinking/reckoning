@@ -260,11 +260,7 @@ ${JSON.stringify(compact, null, 2)}`;
         {generating && (
           <div className="text-sm text-stone-600">Working through your contributions…</div>
         )}
-        {summary && (
-          <div className="prose prose-sm max-w-none prose-stone whitespace-pre-wrap font-serif leading-relaxed text-stone-800">
-            {summary}
-          </div>
-        )}
+        {summary && <Markdown>{summary}</Markdown>}
       </div>
     </div>
   );
@@ -356,8 +352,8 @@ ${JSON.stringify(compact, null, 2)}`;
         </div>
         {error && <div className="mt-3 text-sm text-red-700">{error}</div>}
         {answer && (
-          <div className="mt-4 p-3 bg-stone-50 border border-stone-200 text-sm text-stone-800 whitespace-pre-wrap font-serif leading-relaxed">
-            {answer}
+          <div className="mt-4 p-3 bg-stone-50 border border-stone-200">
+            <Markdown>{answer}</Markdown>
           </div>
         )}
       </div>
