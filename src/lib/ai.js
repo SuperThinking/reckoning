@@ -4,6 +4,15 @@
 // OpenAI: uses the chat completions API.
 // Gemini: uses the generateContent API with the key in the query string.
 
+// Models sometimes wrap their entire response in a ```markdown fence, which
+// then renders as a literal code block instead of formatted markdown.
+function unwrapMarkdownFence(text) {
+  if (!text) return text;
+  const trimmed = text.trim();
+  const match = trimmed.match(/^```(?:markdown|md)?\s*\n([\s\S]*?)\n```$/i);
+  return match ? match[1] : text;
+}
+
 export async function callAI({ provider, apiKey, system, prompt, maxTokens = 2000 }) {
   if (!apiKey) throw new Error('No AI API key provided.');
 
@@ -25,7 +34,7 @@ export async function callAI({ provider, apiKey, system, prompt, maxTokens = 200
     });
     if (!res.ok) throw new Error(`Anthropic ${res.status}: ${(await res.text()).slice(0, 300)}`);
     const j = await res.json();
-    return j.content.map((c) => c.text).join('\n');
+    return unwrapMarkdownFence(j.content.map((c) => c.text).join('\n'));
   }
 
   if (provider === 'openai') {
@@ -45,7 +54,7 @@ export async function callAI({ provider, apiKey, system, prompt, maxTokens = 200
     });
     if (!res.ok) throw new Error(`OpenAI ${res.status}: ${(await res.text()).slice(0, 300)}`);
     const j = await res.json();
-    return j.choices[0].message.content;
+    return unwrapMarkdownFence(j.choices[0].message.content);
   }
 
   if (provider === 'gemini') {
@@ -62,7 +71,7 @@ export async function callAI({ provider, apiKey, system, prompt, maxTokens = 200
     });
     if (!res.ok) throw new Error(`Gemini ${res.status}: ${(await res.text()).slice(0, 300)}`);
     const j = await res.json();
-    return j.candidates[0].content.parts.map((p) => p.text).join('');
+    return unwrapMarkdownFence(j.candidates[0].content.parts.map((p) => p.text).join(''));
   }
 
   throw new Error(`Unknown provider: ${provider}`);
