@@ -74,6 +74,24 @@ When an AI key is present, each view gets a "Generate" button that produces:
 
 Plus a global Q&A bar that answers freeform questions against all your cached contributions.
 
+### Impact notes
+
+Every PR/issue card has an **Add impact note** button. Jot down the *why this mattered* line
+in your own words ("cut p99 latency by 40%", "unblocked the iOS team for two sprints") and
+the AI weights those notes heavily when summarizing — they become the source of truth for
+significance instead of the AI guessing from titles. Notes persist across sessions per the
+"Remember on this device" setting.
+
+### Export for external AI tools
+
+No AI key? The "Take it elsewhere" links next to each view's item count let you:
+
+- **Copy as markdown** — a structured, ready-to-paste prompt for ChatGPT / Claude.ai /
+  Gemini, with impact notes inlined as blockquotes.
+- **Download JSON** — the raw structured data for scripting or other tooling.
+
+Exports respect the current filters, so you can scope the data before sharing.
+
 ### Supported AI providers
 
 - **Anthropic** (Claude Sonnet 4.5)
@@ -106,7 +124,12 @@ secure option.
 - **Storage.** Keys live in `sessionStorage` by default (cleared when the tab closes). The
   "Remember on this device" checkbox switches to `localStorage`. The "Clear data" button on the
   setup screen wipes both.
-- **No analytics, no telemetry, no third-party JS** beyond Google Fonts (loaded once at startup).
+- **Analytics.** The hosted deployment includes [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/),
+  a cookieless privacy-friendly beacon that records aggregate page views and hostname only —
+  no user identifiers, no behavior tracking, no cross-site cookies. It's loaded from
+  `static.cloudflareinsights.com`. If you self-host, remove the `<script>` tag at the bottom
+  of `index.html` to drop it entirely.
+- **No other third-party JS** beyond Google Fonts (loaded once at startup).
 
 ## Limits to know about
 
@@ -125,15 +148,23 @@ src/
   main.jsx                 ← Vite entry
   index.css                ← Tailwind + custom typography
   components/
-    ui.jsx                 ← Shared primitives (Button, Input, Logo, Section)
+    ui.jsx                 ← Shared primitives (Button, Input, Logo, Modal, Markdown)
     SetupScreen.jsx        ← Token entry + AI provider selection
     FilterScreen.jsx       ← Date range + repo type-ahead
     FetchProgress.jsx      ← Animated fetch progress
-    ResultsScreen.jsx      ← Three-tab results + AI summaries + Q&A
+    ResultsScreen.jsx      ← Composes the results view (tabs, header, layout)
+    results/
+      ContributionCard.jsx ← Single PR/issue card + impact-note UI
+      FilterBar.jsx        ← Status/repo/query/sort filter + applyFilters
+      SummaryPanel.jsx     ← AI summary generation + display
+      QAPanel.jsx          ← Cross-tab freeform Q&A
+      ExportBar.jsx        ← Copy-as-markdown / Download-JSON
+      AiSettingsModal.jsx  ← Provider + key settings
+      feedbackData.js      ← Pure helpers: prompt builders, export formatters
   lib/
-    storage.js             ← localStorage/sessionStorage wrapper
+    storage.js             ← localStorage/sessionStorage wrapper + JSON helpers
     github.js              ← GraphQL queries + pagination
-    ai.js                  ← Provider-agnostic AI calls
+    ai.js                  ← Provider-agnostic AI calls (with markdown-fence unwrapping)
 ```
 
 ## License
