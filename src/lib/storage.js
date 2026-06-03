@@ -7,6 +7,7 @@ export const STORAGE_KEYS = {
   aiProvider: 'fbc_ai_provider',
   aiKey: 'fbc_ai_key',
   persist: 'fbc_persist',
+  annotations: 'fbc_annotations',
 };
 
 export const storage = {
@@ -24,6 +25,18 @@ export const storage = {
     } catch {
       /* storage unavailable */
     }
+  },
+  getJSON(key, fallback) {
+    const raw = storage.get(key);
+    if (!raw) return fallback;
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return fallback;
+    }
+  },
+  setJSON(key, value, persist) {
+    storage.set(key, JSON.stringify(value), persist);
   },
   clearAll() {
     try {
