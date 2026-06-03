@@ -1,7 +1,8 @@
 # Reckoning — GitHub Feedback Companion
 
 
-<img width="1066" height="853" alt="image" src="https://github.com/user-attachments/assets/d6c7f173-6724-43e0-8714-b7f5e0a96cf4" />
+<img width="1449" height="1249" alt="image" src="https://github.com/user-attachments/assets/0e5d9178-6cc2-46d5-baf1-c5139dd525a9" />
+
 
 
 A client-side companion that turns your GitHub activity into a feedback-cycle self-review.
